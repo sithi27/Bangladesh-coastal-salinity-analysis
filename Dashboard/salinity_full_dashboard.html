@@ -1,0 +1,363 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.d{background:#061320;min-height:100vh;font-family:system-ui,sans-serif;color:#fff}
+.hdr{background:#091d33;padding:16px 24px;border-bottom:2px solid #00b4d8;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.htitle{font-size:18px;font-weight:500;color:#48cae4}
+.hsub{font-size:11px;color:#7ecfea;margin-top:3px}
+.hbadge{background:#0e3a5c;color:#48cae4;font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid #00b4d8}
+.body{padding:18px 22px}
+.frow{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.fl{font-size:11px;color:#7ecfea;margin-right:2px}
+.fb{background:#091d33;border:1px solid #0e3a5c;color:#90e0ef;font-size:11px;padding:5px 14px;border-radius:16px;cursor:pointer;transition:all .15s}
+.fb.on,.fb:hover{background:#0077b6;border-color:#00b4d8;color:#fff}
+.krow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.kcard{background:#091d33;border:1px solid #0e3a5c;border-radius:10px;padding:14px 16px;border-top:3px solid #00b4d8}
+.kcard.r{border-top-color:#e63946}
+.kcard.g{border-top-color:#40c987}
+.kcard.a{border-top-color:#f4a261}
+.klb{font-size:10px;color:#90e0ef;letter-spacing:.5px;margin-bottom:5px}
+.kv{font-size:28px;font-weight:500;color:#fff}
+.ks{font-size:10px;color:#48cae4;margin-top:3px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.card{background:#091d33;border:1px solid #0e3a5c;border-radius:10px;padding:16px}
+.ct{font-size:12px;font-weight:500;color:#90e0ef;margin-bottom:12px}
+.leg{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:#7ecfea;margin-bottom:8px}
+.ld{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
+.mapbox{background:#071d30;border-radius:8px;position:relative;overflow:hidden;height:240px}
+.dot{position:absolute;border-radius:50%;cursor:pointer;transform:translate(-50%,-50%)}
+.tip{display:none;position:absolute;background:#091d33;border:1px solid #00b4d8;color:#fff;font-size:10px;padding:5px 8px;border-radius:6px;white-space:nowrap;z-index:10;bottom:120%;left:50%;transform:translateX(-50%)}
+.dot:hover .tip{display:block}
+.mleg{position:absolute;bottom:10px;left:12px;font-size:10px;color:#7ecfea;display:flex;gap:10px;background:rgba(6,19,32,.7);padding:4px 8px;border-radius:6px}
+.mlbl{position:absolute;top:10px;right:12px;font-size:10px;color:#48cae4;background:rgba(6,19,32,.7);padding:3px 8px;border-radius:5px}
+.ins-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.ins{background:#091d33;border-radius:8px;padding:12px 14px;border-left:3px solid #00b4d8}
+.ins.r{border-left-color:#e63946}
+.ins.a{border-left-color:#f4a261}
+.insl{font-size:10px;color:#7ecfea;margin-bottom:3px}
+.insv{font-size:15px;font-weight:500;color:#fff}
+.insd{font-size:10px;color:#48cae4;margin-top:2px}
+</style>
+
+<div class="d">
+<div class="hdr">
+  <div>
+    <div class="htitle">Bangladesh Coastal Salinity Dashboard</div>
+    <div class="hsub">Khulna Division &nbsp;·&nbsp; Bagerhat &nbsp;·&nbsp; Khulna &nbsp;·&nbsp; Satkhira &nbsp;·&nbsp; FAO Data 1976–1980 &nbsp;·&nbsp; 61 Stations</div>
+  </div>
+  <div class="hbadge">EC in M/Mhos</div>
+</div>
+
+<div class="body">
+
+<div class="frow">
+  <span class="fl">District:</span>
+  <button class="fb on" onclick="setD('All',this)">All</button>
+  <button class="fb" onclick="setD('Bagerhat',this)">Bagerhat</button>
+  <button class="fb" onclick="setD('Khulna',this)">Khulna</button>
+  <button class="fb" onclick="setD('Satkhira',this)">Satkhira</button>
+  <span class="fl" style="margin-left:10px">Year:</span>
+  <button class="fb on" onclick="setY('All',this)">All</button>
+  <button class="fb" onclick="setY('1976-77',this)">1976-77</button>
+  <button class="fb" onclick="setY('1977-78',this)">1977-78</button>
+  <button class="fb" onclick="setY('1978-79',this)">1978-79</button>
+  <button class="fb" onclick="setY('1979-80',this)">1979-80</button>
+</div>
+
+<div class="krow">
+  <div class="kcard">
+    <div class="klb">TOTAL STATIONS</div>
+    <div class="kv" id="k1">61</div>
+    <div class="ks">3 districts monitored</div>
+  </div>
+  <div class="kcard r">
+    <div class="klb">PEAK SALINITY (MEAN)</div>
+    <div class="kv" id="k2">27,034</div>
+    <div class="ks" id="k2s">Satkhira · May</div>
+  </div>
+  <div class="kcard g">
+    <div class="klb">LOWEST SALINITY (MEAN)</div>
+    <div class="kv" id="k3">208</div>
+    <div class="ks" id="k3s">Khulna · Jul</div>
+  </div>
+  <div class="kcard a">
+    <div class="klb">RIVER SYSTEMS</div>
+    <div class="kv">8</div>
+    <div class="ks">Rupsa-Pasur dominant</div>
+  </div>
+</div>
+
+<div class="ins-row">
+  <div class="ins r">
+    <div class="insl">Most critical district</div>
+    <div class="insv" id="ic">Satkhira</div>
+    <div class="insd" id="icd">Annual avg 11,406 M/Mhos</div>
+  </div>
+  <div class="ins a">
+    <div class="insl">Peak season</div>
+    <div class="insv">April — May</div>
+    <div class="insd">Dry season salinity surge</div>
+  </div>
+  <div class="ins">
+    <div class="insl">HWS vs LWS difference</div>
+    <div class="insv">+222 M/Mhos</div>
+    <div class="insd">Tidal effect on salinity</div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="ct">Seasonal salinity — mean EC by month</div>
+    <div class="leg">
+      <span><span class="ld" style="background:#e63946"></span>Satkhira</span>
+      <span><span class="ld" style="background:#f4a261"></span>Bagerhat</span>
+      <span><span class="ld" style="background:#48cae4"></span>Khulna</span>
+    </div>
+    <div style="position:relative;height:200px"><canvas id="c1" role="img" aria-label="Seasonal salinity by district">Monthly salinity trend for three districts.</canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Annual mean salinity by district</div>
+    <div class="leg"><span><span class="ld" style="background:#00b4d8"></span>Mean EC (M/Mhos)</span></div>
+    <div style="position:relative;height:200px"><canvas id="c2" role="img" aria-label="District annual mean">Annual salinity comparison by district.</canvas></div>
+  </div>
+</div>
+
+<div class="g3">
+  <div class="card">
+    <div class="ct">HWS vs LWS comparison</div>
+    <div class="leg">
+      <span><span class="ld" style="background:#00b4d8"></span>HWS</span>
+      <span><span class="ld" style="background:#f4a261;border-radius:50%"></span>LWS</span>
+    </div>
+    <div style="position:relative;height:180px"><canvas id="c3" role="img" aria-label="HWS vs LWS">Tidal stage salinity comparison.</canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Station count by district</div>
+    <div style="position:relative;height:180px"><canvas id="c4" role="img" aria-label="Stations by district">Bagerhat 36, Khulna 16, Satkhira 9.</canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">River monitoring share</div>
+    <div class="leg">
+      <span><span class="ld" style="background:#00b4d8"></span>Rupsa-Pasur</span>
+      <span><span class="ld" style="background:#48cae4"></span>Sibsa</span>
+      <span><span class="ld" style="background:#0077b6"></span>Others</span>
+    </div>
+    <div style="position:relative;height:180px"><canvas id="c5" role="img" aria-label="River share">River monitoring distribution.</canvas></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="ct">Station location map — Khulna Division</div>
+  <div class="mapbox" id="mapbox">
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 700 240">
+      <rect width="700" height="240" fill="#071d30"/>
+      <path d="M80 30 Q200 10 340 25 Q480 10 600 35 Q650 60 640 100 Q630 150 580 180 Q520 210 440 215 Q360 225 280 218 Q200 228 130 210 Q80 190 65 150 Q45 110 80 30Z" fill="#0a2a40" opacity=".7"/>
+      <path d="M200 80 Q280 60 360 72 Q440 58 510 78 Q540 95 530 125 Q515 155 470 162 Q420 172 370 168 Q320 178 270 170 Q225 178 195 160 Q170 140 175 110 Q178 88 200 80Z" fill="#071525" opacity=".5"/>
+      <text x="350" y="130" text-anchor="middle" font-size="11" fill="#1a4a6b" font-family="system-ui">Khulna Division</text>
+      <text x="280" y="105" text-anchor="middle" font-size="9" fill="#0e3a5c">Bay of Bengal</text>
+    </svg>
+    <div id="mapdots"></div>
+    <div class="mleg">
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00b4d8;margin-right:3px;vertical-align:middle"></span>Bagerhat</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#48cae4;margin-right:3px;vertical-align:middle"></span>Khulna</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f4a261;margin-right:3px;vertical-align:middle"></span>Satkhira</span>
+    </div>
+    <div class="mlbl">61 monitoring stations</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const months=['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+
+const raw={
+  Satkhira:{
+    '1976-77':{hws:[null,null,null,null,null,null,null,null,10407,13100,19493,null],lws:[null,null,null,null,null,null,null,null,7980,12780,17274,null]},
+    '1977-78':{hws:[20743,27161,17348,657,700,null,647,null,null,null,null,9050],lws:[21133,26908,15907,820,697,null,600,null,null,null,null,9625]},
+    '1978-79':{hws:[21700,24625,null,null,null,null,null,null,null,null,null,null],lws:[20200,23250,null,null,null,null,null,null,null,null,null,null]},
+    '1979-80':{hws:[7667,8000,null,null,null,null,15125,null,null,null,null,null],lws:[7667,7250,null,null,null,null,13875,null,null,null,null,null]}
+  },
+  Bagerhat:{
+    '1976-77':{hws:[7950,7681,6072,null,null,null,null,622,9954,1670,3573,6065],lws:[7693,7732,6065,null,null,null,null,581,932,1531,2209,6039]},
+    '1977-78':{hws:[9353,3515,2430,713,572,638,null,567,629,870,1847,3837],lws:[8010,4553,2507,383,569,620,null,547,604,825,1837,3913]},
+    '1978-79':{hws:[6083,6417,4250,null,null,null,null,null,695,922,2379,6006],lws:[6110,6400,4250,null,null,null,null,null,735,852,2182,5140]},
+    '1979-80':{hws:[10118,4598,4216,null,null,null,760,1075,2070,4344,8166,null],lws:[9977,4525,3983,null,null,null,703,615,1940,3885,7632,null]}
+  },
+  Khulna:{
+    '1976-77':{hws:[10420,9877,1312,235,249,280,253,279,320,403,771,2125],lws:[8600,7544,775,273,243,271,236,277,317,395,497,1288]},
+    '1977-78':{hws:[2794,576,348,223,210,null,220,260,305,351,386,374],lws:[1321,369,275,208,215,null,230,260,303,352,377,363]},
+    '1978-79':{hws:[412,387,252,null,null,null,311,388,378,435,485,null],lws:[316,288,242,null,null,null,257,343,374,426,443,null]},
+    '1979-80':{hws:[712,693,441,null,null,null,337,418,856,2507,null,null],lws:[528,532,378,null,null,null,335,398,644,1785,null,null]}
+  }
+};
+
+const stations={
+  Bagerhat:{count:36,color:'#00b4d8',spots:[
+    {lat:22.65,lng:89.80},{lat:22.55,lng:89.74},{lat:22.30,lng:89.60},{lat:22.25,lng:89.58},
+    {lat:22.53,lng:89.58},{lat:22.27,lng:89.59},{lat:22.34,lng:89.63},{lat:22.20,lng:89.54},
+    {lat:22.08,lng:89.52},{lat:22.00,lng:89.49},{lat:22.48,lng:89.61},{lat:22.17,lng:89.53},
+    {lat:22.14,lng:89.51},{lat:22.09,lng:89.51},{lat:21.98,lng:89.54},{lat:21.95,lng:89.53},
+    {lat:22.45,lng:89.86},{lat:22.32,lng:89.85}
+  ]},
+  Khulna:{count:16,color:'#48cae4',spots:[
+    {lat:22.73,lng:89.52},{lat:22.72,lng:89.53},{lat:22.60,lng:89.52},{lat:22.62,lng:89.52},
+    {lat:22.67,lng:89.53},{lat:22.46,lng:89.44},{lat:22.65,lng:89.43},{lat:22.82,lng:89.57},
+    {lat:22.77,lng:89.58},{lat:22.46,lng:89.59},{lat:22.79,lng:89.58},{lat:22.59,lng:89.30}
+  ]},
+  Satkhira:{count:9,color:'#f4a261',spots:[
+    {lat:22.93,lng:89.09},{lat:22.89,lng:89.04},{lat:22.56,lng:89.46},{lat:22.75,lng:89.10},
+    {lat:22.57,lng:89.50},{lat:22.44,lng:89.43},{lat:22.37,lng:89.44},{lat:22.49,lng:89.43},{lat:22.56,lng:89.14}
+  ]}
+};
+
+const DC={Satkhira:'#e63946',Bagerhat:'#f4a261',Khulna:'#48cae4'};
+const ax={x:{ticks:{color:'#90e0ef',font:{size:10}},grid:{color:'rgba(14,58,92,0.4)'},border:{color:'#0e3a5c'}},y:{ticks:{color:'#90e0ef',font:{size:10}},grid:{color:'rgba(14,58,92,0.4)'},border:{color:'#0e3a5c'}}};
+
+let cD='All',cY='All',charts={};
+
+function nn(arr){return arr.filter(x=>x!=null);}
+function avg(arr){const v=nn(arr);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+
+function getDistricts(){return cD==='All'?['Satkhira','Bagerhat','Khulna']:[cD];}
+function getYears(){return cY==='All'?['1976-77','1977-78','1978-79','1979-80']:[cY];}
+
+function monthAvg(district,yi,stage){
+  const years=getYears();
+  const vals=years.map(y=>raw[district]?.[y]?.[stage]?.[yi]).filter(x=>x!=null);
+  return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null;
+}
+
+function annualMean(district){
+  const years=getYears();
+  let all=[];
+  years.forEach(y=>{
+    if(raw[district]?.[y]){
+      all=[...all,...nn(raw[district][y].hws),...nn(raw[district][y].lws)];
+    }
+  });
+  return all.length?Math.round(all.reduce((a,b)=>a+b,0)/all.length):0;
+}
+
+function buildC1(){
+  if(charts.c1) charts.c1.destroy();
+  const ds=getDistricts().map(d=>({
+    label:d,
+    data:months.map((_,i)=>avg([monthAvg(d,i,'hws'),monthAvg(d,i,'lws')])),
+    borderColor:DC[d],backgroundColor:'transparent',borderWidth:2,
+    pointBackgroundColor:DC[d],pointRadius:3,tension:0.4,spanGaps:true
+  }));
+  charts.c1=new Chart(document.getElementById('c1'),{
+    type:'line',data:{labels:months,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{...ax.x,ticks:{...ax.x.ticks,maxRotation:30}},y:{...ax.y,ticks:{...ax.y.ticks,callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}
+  });
+}
+
+function buildC2(){
+  if(charts.c2) charts.c2.destroy();
+  const ds=getDistricts();
+  charts.c2=new Chart(document.getElementById('c2'),{
+    type:'bar',
+    data:{labels:ds,datasets:[{data:ds.map(d=>annualMean(d)),backgroundColor:ds.map(d=>DC[d]),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{...ax.x},y:{...ax.y,ticks:{...ax.y.ticks,callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}
+  });
+}
+
+function buildC3(){
+  if(charts.c3) charts.c3.destroy();
+  const ds=getDistricts();
+  const hws=months.map((_,i)=>{const vals=ds.map(d=>monthAvg(d,i,'hws')).filter(x=>x!=null);return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null;});
+  const lws=months.map((_,i)=>{const vals=ds.map(d=>monthAvg(d,i,'lws')).filter(x=>x!=null);return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null;});
+  charts.c3=new Chart(document.getElementById('c3'),{
+    type:'line',
+    data:{labels:months,datasets:[
+      {label:'HWS',data:hws,borderColor:'#00b4d8',backgroundColor:'rgba(0,180,216,0.08)',borderWidth:2,pointRadius:2,tension:0.4,fill:true,spanGaps:true},
+      {label:'LWS',data:lws,borderColor:'#f4a261',backgroundColor:'transparent',borderWidth:2,pointRadius:2,borderDash:[4,3],tension:0.4,spanGaps:true}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{...ax.x,ticks:{...ax.x.ticks,maxRotation:30,font:{size:9}}},y:{...ax.y,ticks:{...ax.y.ticks,callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}
+  });
+}
+
+function buildC4(){
+  if(charts.c4) charts.c4.destroy();
+  const ds=getDistricts();
+  const counts={Bagerhat:36,Khulna:16,Satkhira:9};
+  charts.c4=new Chart(document.getElementById('c4'),{
+    type:'bar',
+    data:{labels:ds,datasets:[{data:ds.map(d=>counts[d]),backgroundColor:ds.map(d=>DC[d]),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{...ax.x},y:{...ax.y,ticks:{...ax.y.ticks,stepSize:10}}}}
+  });
+}
+
+function buildC5(){
+  if(charts.c5) charts.c5.destroy();
+  charts.c5=new Chart(document.getElementById('c5'),{
+    type:'doughnut',
+    data:{labels:['Rupsa-Pasur','Sibsa','Gorai-M.','Betna-K.','Others'],
+      datasets:[{data:[36,14,3,2,6],backgroundColor:['#00b4d8','#48cae4','#0077b6','#005080','#003d5c'],borderColor:'#091d33',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'58%'}
+  });
+}
+
+function buildMap(){
+  const box=document.getElementById('mapbox');
+  const W=box.clientWidth||700, H=240;
+  const minLat=21.75,maxLat=23.1,minLng=88.85,maxLng=89.95;
+  let html='';
+  const ds=getDistricts();
+  ds.forEach(d=>{
+    stations[d].spots.forEach(s=>{
+      const x=((s.lng-minLng)/(maxLng-minLng))*(W*0.85)+W*0.075;
+      const y=((maxLat-s.lat)/(maxLat-minLat))*(H*0.80)+H*0.10;
+      html+=`<div class="dot" style="left:${Math.round(x)}px;top:${Math.round(y)}px;width:10px;height:10px;background:${stations[d].color};border:1.5px solid rgba(255,255,255,.3)">
+        <div class="tip">${d} station</div>
+      </div>`;
+    });
+  });
+  document.getElementById('mapdots').innerHTML=html;
+  document.getElementById('k1').textContent=ds.reduce((a,d)=>a+stations[d].count,0);
+}
+
+function updateKPIs(){
+  const ds=getDistricts();
+  let peak=0,peakL='',low=Infinity,lowL='';
+  ds.forEach(d=>{
+    months.forEach((m,i)=>{
+      const v=avg([monthAvg(d,i,'hws'),monthAvg(d,i,'lws')]);
+      if(v&&v>peak){peak=v;peakL=d+' · '+m;}
+      if(v&&v<low){low=v;lowL=d+' · '+m;}
+    });
+  });
+  document.getElementById('k2').textContent=peak.toLocaleString();
+  document.getElementById('k2s').textContent=peakL;
+  document.getElementById('k3').textContent=low===Infinity?'—':low.toLocaleString();
+  document.getElementById('k3s').textContent=lowL;
+  const anns=ds.map(d=>({d,v:annualMean(d)})).sort((a,b)=>b.v-a.v);
+  if(anns.length){
+    document.getElementById('ic').textContent=anns[0].d;
+    document.getElementById('icd').textContent='Annual avg '+anns[0].v.toLocaleString()+' M/Mhos';
+  }
+}
+
+function rebuild(){buildC1();buildC2();buildC3();buildC4();buildC5();buildMap();updateKPIs();}
+
+function setD(v,btn){
+  cD=v;
+  document.querySelectorAll('.frow .fb').forEach((b,i)=>{if(i<4)b.classList.remove('on')});
+  btn.classList.add('on');rebuild();
+}
+function setY(v,btn){
+  cY=v;
+  document.querySelectorAll('.frow .fb').forEach((b,i)=>{if(i>=4)b.classList.remove('on')});
+  btn.classList.add('on');rebuild();
+}
+
+rebuild();
+</script>
