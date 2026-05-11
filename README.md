@@ -153,7 +153,8 @@ This project contributes an open, data-driven foundation for evidence-based wate
 <div align="center">
 
 **Faria Afrin Sithi**
-3rd Year Student Computer Science & Technology | Barishal Polytechnic Institute, Bangladesh
+ Final Year Student . Computer Science & Technology | Barishal Polytechnic Institute, Bangladesh
+
 
 [![Email](https://img.shields.io/badge/Email-fariaafrinsithi%40gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:fariaafrinsithi@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Faria%20Afrin%20Sithi-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/faria-afrin-sithi)
